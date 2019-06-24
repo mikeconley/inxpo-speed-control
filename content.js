@@ -7,7 +7,7 @@ const SpeedControl = {
   },
 
   init() {
-    this.$video = document.querySelector(".AxiomVideoHTML");
+    this.$video = document.querySelector("video");
     this.$controls = document.querySelector(".AxiomMediaBottomControls");
 
     if (!this.$video || !this.$controls) {
@@ -46,7 +46,7 @@ const SpeedControl = {
   },
 }
 
-addEventListener("load", () => {
-  console.log("Starting up INXPO Speed Control.");
+addEventListener("canplay", () => {
+  console.log("Saw a media element that can play. Starting up INXPO Speed Control.");
   SpeedControl.init();
-}, { once: true });
+}, { once: true, capture: true });
