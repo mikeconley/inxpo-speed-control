@@ -7,10 +7,10 @@ const SpeedControl = {
   },
 
   init() {
-    this.$video = document.querySelector(".AxiomVideoHTML");
     this.$controls = document.querySelector(".AxiomMediaBottomControls");
+    this.$video = document.querySelector("video");
 
-    if (!this.$video || !this.$controls) {
+    if (!this.$controls) {
       // I guess this isn't the right kind of page.
       console.log("INXPO Speed Control can't attach to this page. Bailing out.");
     }
@@ -36,17 +36,37 @@ const SpeedControl = {
   },
 
   handleEvent(event) {
-    if (event.type != "change") {
+    if (event.type !== "change") {
       return;
     }
 
     let newSpeed = event.target.value;
     console.log(`Setting playbackRate to ${newSpeed}`);
     this.$video.playbackRate = newSpeed;
-  },
-}
+  }
+};
 
-addEventListener("load", () => {
-  console.log("Starting up INXPO Speed Control.");
-  SpeedControl.init();
-}, { once: true });
+// be dumb and poll for video, but at least not forever
+const POLLING = {
+  duration: 250,
+  iterations: 25,
+  current: 1
+};
+
+const run = () => {
+  console.log(`polling for video element...${POLLING.current} times`);
+  if (POLLING.current > POLLING.iterations) {
+    console.log("Can't find video element. Bailing out.");
+  }
+  setTimeout(() => {
+    const video = document.querySelector('video');
+    if (video) {
+      SpeedControl.init();
+    } else {
+      POLLING.current++;
+      run();
+    }
+  }, POLLING.duration);
+};
+
+run();
