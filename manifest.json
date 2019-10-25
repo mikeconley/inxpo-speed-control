@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "INXPO Speed Control",
-  "version": "0.2",
+  "version": "0.3",
   "description": "Adds a speed control to INXPO videos.",
   "applications": {
     "gecko": {
